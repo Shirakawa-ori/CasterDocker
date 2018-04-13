@@ -1,4 +1,5 @@
 import socket
+import redis
 
 def printRedChr(s):
     print "\033[1;31;40m"+s+"\033[0m"
