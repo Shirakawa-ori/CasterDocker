@@ -41,7 +41,7 @@ class Clienttransfer(Protocol):
             
 if __name__ == "__main__":
     print 'Redis'
-    rs = conn_redis(redis_host = 'localhost',redis_db = '3')
+    rs = conn_redis(redis_host = 'redis',redis_db = '3')
     print rs.keys('*')
     factory = Factory()
     factory.protocol = Transfer
