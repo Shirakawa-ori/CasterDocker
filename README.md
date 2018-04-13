@@ -1,2 +1,2 @@
 # CasterDocker
-Docker-io超小型服务发现+负载分发
+Docker-io超小型服务注册（伪）+负载分发
