@@ -30,9 +30,9 @@ if __name__ == "__main__":
         print e
         exit(1)
     try :
-        port = 1005
+        port = 10005
         upstream = 'http://'+ip+':'+str(port)
-        rs.sadd('upstream',ip)
+        rs.sadd('upstream',upstream)
         print str(rs.smembers('upstream'))
         print 'Registry success!'
     except Exception, e:
