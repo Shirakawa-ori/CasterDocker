@@ -11,9 +11,11 @@ def get_code(url):
 def Checkaddlist(rs):
     urllist = rs.smembers ('upstream')
     print urllist
-    
+    cemetery = rs.smembers ('cemetery')
+    print cemetery
+
     for url in urllist:
-            status = str(000)
+        status = str(000)
         try:
             status = str(get_code(url))
         except Exception, e:
@@ -31,7 +33,7 @@ def Checkaddlist(rs):
         else :
             rs.srem ('upstream',url)
             rs.sadd('cemetery',url)
-            print 'Error ' + url + 'is Dead ' + str(status)
+            print 'Error ' + url + ' is Dead ' + str(status)
             
     uploadTime = str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     print uploadTime+ " " + str(rs.set('uploadTime',uploadTime))
