@@ -9,7 +9,7 @@ RUN \
     yum clean all && \
     wget 'https://bootstrap.pypa.io/get-pip.py' && \
     python /opt/get-pip.py && \
-    pip install requests redis && \
+    pip install requests tornado redis && \
     chmod 755 /opt/run.sh && \
     date >> /build_RUN_Time.info
 
