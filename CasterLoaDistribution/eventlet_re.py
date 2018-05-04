@@ -30,7 +30,7 @@ if __name__ == "__main__":
     listenPort = 1926
     print 'start '+listenHost+':'+str(listenPort)
     print 'Redis'
-    rs = conn_redis(redis_host = 'localhost',redis_db = '3')
+    rs = conn_redis(redis_host = 'redis',redis_db = '3')
     print rs.keys('*')
     print get_upstream(rs)
     listener = eventlet.listen((listenHost, listenPort))
