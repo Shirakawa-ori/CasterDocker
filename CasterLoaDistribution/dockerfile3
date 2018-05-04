@@ -1,0 +1,18 @@
+FROM centos:7
+
+ADD eventlet_re.py /opt/
+ADD run.sh /opt/
+
+RUN \
+    cd /opt && \
+    yum install wget gcc make python-devel openssl* -y && \
+    yum clean all && \
+    wget 'https://bootstrap.pypa.io/get-pip.py' && \
+    python /opt/get-pip.py && \
+    pip install eventlet redis && \
+    chmod 755 /opt/run.sh && \
+    date >> /build_RUN_Time.info
+
+WORKDIR /opt/
+
+CMD ["/opt/run.sh"]
