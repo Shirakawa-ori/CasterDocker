@@ -14,8 +14,10 @@ def Checkaddlist(rs):
     cemetery = rs.smembers ('cemetery')
     print cemetery
 
-    for url in urllist:
+    for u in urllist:
         status = str(000)
+        url = 'http://'+u
+        print url
         try:
             status = str(get_code(url))
         except Exception, e:
@@ -31,8 +33,8 @@ def Checkaddlist(rs):
         if str(status) == str('200'):
             print 'HTTP 200 OK! ' + url
         else :
-            rs.srem ('upstream',url)
-            rs.sadd('cemetery',url)
+            rs.srem ('upstream',u)
+            rs.sadd('cemetery',u)
             print 'Error ' + url + ' is Dead ' + str(status)
             
     uploadTime = str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
@@ -42,7 +44,7 @@ def Checkaddlist(rs):
 if __name__ == "__main__":
     try :
         print 'Redis'
-        rs = conn_redis(redis_host = 'redis',redis_db = '3')
+        rs = conn_redis(redis_host = '172.17.0.15',redis_db = '3')
         print rs.keys('*')
         print 'Done'
         while(1):
