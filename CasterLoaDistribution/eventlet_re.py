@@ -4,6 +4,23 @@ import redis
 import time
 import uuid
 
+def timer(func):
+    def decor(*args):
+        start_time = time.time();
+        func(*args);
+        end_time = time.time();
+        d_time = end_time - start_time
+        print("run the func use : ", d_time)
+    return decor;
+
+def set_fun(func):
+    def call_fun(*args, **kwargs):
+        start_time = time.time()
+        func(*args, **kwargs)
+        end_time = time.time()
+        print '程序用时：%s秒' % int(end_time - start_time)
+    return call_fun
+
 def create_adder():
     init = [0]
     def add(x):
@@ -58,9 +75,16 @@ def closed_callback():
 def forward(source, dest, cb=lambda: None):
     """Forwards bytes unidirectionally from source to dest"""
     while True:
-        d = source.recv(32384)
+        #d = source.recv(32384)
+        d = source.recv(4096)
+        print d
         if d == '':
             cb()
+            try :
+                dest.shutdown(2)
+                dest.close()
+            except :
+                pass
             break
         dest.sendall(d)
 
@@ -87,6 +111,7 @@ if __name__ == "__main__":
         exit(1)
     co.blue('    Start listen')
     listener = eventlet.listen((listenHost, listenPort))
+    pool = eventlet.GreenPool(200)
     co.green('ALL CHECK OK')
     print ''
     try :
@@ -97,9 +122,9 @@ if __name__ == "__main__":
                 client, addr = listener.accept()
                 #
                 #upstreamHost, upstreamPort = poll.get_upstream()
-                upstreamHost, upstreamPort = poll.roll()
+                #upstreamHost, upstreamPort = poll.roll()
                 #upstreamHost, upstreamPort = poll.ip_hash(addr[0])
-                #upstreamHost, upstreamPort = poll.no_redis('127.0.0.1:80')
+                upstreamHost, upstreamPort = poll.no_redis('127.0.0.1:80')
                 #
                 co.blue('%s    ## listener get client ##\n      Time : %s , IP : %s , upstream : %s:%s' % (coid,str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))),addr,upstreamHost,str(upstreamPort)))
                 server = eventlet.connect((upstreamHost ,upstreamPort))
